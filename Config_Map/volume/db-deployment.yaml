@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: db-checker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: db-checker
+  template:
+    metadata:
+      labels:
+        app: db-checker
+    spec:
+      containers:
+      - name: busybox
+        image: busybox
+        command: ["sh", "-c", "echo DB Host is $(cat /config/db-host) and Port is $(cat /config/db-port) && sleep 3600"]
+        volumeMounts:
+        - name: db-config-volume
+          mountPath: /config
+          readOnly: true
+      volumes:
+      - name: db-config-volume
+        configMap:
+          name: db-config
+
