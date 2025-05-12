@@ -15,6 +15,7 @@ spec:
       containers:
       - name: busybox
         image: busybox
+        command: ["sh", "-c", "echo DB Host is $DB_HOST and Port is $DB_PORT && sleep 3600"]
         env:
         - name: DB_PORT
           valueFrom:
