@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: db-checker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: db-checker
+  template:
+    metadata:
+      labels:
+        app: db-checker
+    spec:
+      containers:
+      - name: busybox
+        image: busybox
+        env:
+        - name: DB_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: db-config
+              key: db-port
+        - name: DB_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: db-config
+              key: db-host
+
